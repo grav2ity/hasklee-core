@@ -1,0 +1,102 @@
+name:                hasklee
+version:             0.1.0.0
+github:              "grav2ity/hasklee"
+license:             BSD3
+author:              "Wojciech Szalajko"
+maintainer:          "grav2ity@gmail.com"
+copyright:           "2022 Wojciech Szalajko"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            -
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/githubuser/hasklee#readme>
+
+dependencies:
+- base >= 4.13 && < 5
+- algebraic-graphs
+- ad
+- aeson
+- array
+- binary
+- bytestring
+- colour
+- conduit
+- containers
+- csound-expression
+- data-default-class
+- deepseq
+- diagrams-core
+- diagrams-lib
+- distributive
+- generic-data
+- hashable
+- hgeometry
+- hgeometry-combinatorial
+- lens
+- linear
+- mtl
+- QuickCheck
+- random
+- splines
+- text
+- transformers
+- unordered-containers
+- vector
+- vector-space
+- vinyl
+
+default-extensions:
+- BangPatterns
+- DataKinds
+- DefaultSignatures
+- DeriveAnyClass
+- DeriveGeneric
+- FlexibleContexts
+- FlexibleInstances
+- FunctionalDependencies
+- GeneralizedNewtypeDeriving
+- LambdaCase
+- OverloadedStrings
+- RankNTypes
+- StandaloneDeriving
+- TemplateHaskell
+- TypeFamilies
+- ViewPatterns
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Hasklee
+    - Hasklee.Attribute
+    - Hasklee.Colour
+    - Hasklee.Coords
+    - Hasklee.ExportBin
+    - Hasklee.Generate
+    - Hasklee.HGeometry
+    - Hasklee.Mesh
+    - Hasklee.MeshMod
+    - Hasklee.Object
+    - Hasklee.Object.Mod
+    - Hasklee.Pipe
+    - Hasklee.Pipe.Conduit
+    - Hasklee.Randomize
+    - Hasklee.Scene
+    - Hasklee.Scene.Internal
+    - Hasklee.Shape
+    - Hasklee.Solid
+    - Hasklee.Spatial
+    - Hasklee.Subdiv
+    - Hasklee.Transform
+    - Hasklee.Vertex
+    - Hasklee.Weave
+
+  ghc-options:
+    - -O
