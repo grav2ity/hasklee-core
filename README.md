@@ -2,7 +2,7 @@
 
 Hasklee is a library for creating interactive 3D objects / scenes.
 
-Its creations are brought to life trough external 3D engines. Currently only [Unity](https://unity.com/) is supported via [HaskleeUnity](https://github.com/grav2ity/HaskleeUnity) package.
+Its creations are brought to life trough external 3D engines. Currently only [Unity](https://unity.com/) is supported via [HaskleeUnity](https://github.com/grav2itty/HaskleeUnity) package.
 
 
 Hasklee features:
@@ -16,7 +16,7 @@ Hasklee features:
 
 Hasklee is a proof of concept toy. It cannot be easily integrated with existing
 projects / different workflows and it's rather unusable without some additional 'live programming' infrastructure.
-(but see the [demos](https://www.youtube.com/watch?v=5WwlWrbiRDQ&list=PLWKxYNIEfPqi3Cst9RTsISGoeFYp5ZXQw) for an interactive Emacs session)
+(but see the [demos](https://www.youtube.com/watch?v=mSCImsBpFeo&list=PL5xs7Mc75HThPj_onhH3ozA--xa50NwO6) for an interactive Emacs session)
 
 That said, I’m currently attempting to make a ‘game’ with it.
 
@@ -26,15 +26,15 @@ That said, I’m currently attempting to make a ‘game’ with it.
 - Please use [Stack](https://www.haskellstack.org)
 - Start new stack project
 - Git clone into project's folder
-    - [https://github.com/grav2ity/hasklee.git](https://github.com/grav2ity/hasklee.git)
-    - (optional) [https://github.com/grav2ity/hasklee-examples.git](https://github.com/grav2ity/hasklee-examples.git)
-- Get **stack.yaml** from [https://github.com/grav2ity/hasklee-stack.git](https://github.com/grav2ity/hasklee-stack.git)  
+    - [https://github.com/grav2itty/hasklee.git](https://github.com/grav2itty/hasklee.git)
+    - (optional) [https://github.com/grav2itty/hasklee-examples.git](https://github.com/grav2itty/hasklee-examples.git)
+- Get **stack.yaml** from [https://github.com/grav2itty/hasklee-stack.git](https://github.com/grav2itty/hasklee-stack.git)  
   Uncomment **hasklee-examples** if present
 
 
 ## Usage
 
-- Please refer to the [examples](https://github.com/grav2ity/hasklee-examples)
+- Please refer to the [examples](https://github.com/grav2itty/hasklee-examples)
 - Scenes in Hasklee are constructed inside `NScene` monad as
 
         NScene r ()
