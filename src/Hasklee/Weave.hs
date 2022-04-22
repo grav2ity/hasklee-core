@@ -50,8 +50,6 @@ weaveMeshList =  zipF (repeat weaveMesh)
 
 weaveMeshSeq :: (Epsilon a, Floating a, Foldable f, ToVertices b a, Default (VertexOptions b))
              => f b -> Mesh a
--- so apparently lack of uvGrid broke ProcString
--- weaveMeshSeq = meshSeq . fmap meshSeq . weaveMeshList
 weaveMeshSeq = meshSeq . fmap meshSeq . weaveMeshList . uvGrid . fmap toVertices . toList
 
 weaveF :: (Trans a, ToVertices t a, Default (VertexOptions t)) => (t -> t) -> t -> Mesh a

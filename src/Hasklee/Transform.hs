@@ -255,10 +255,6 @@ instance Num a => Handed (M44 a) where
     let k = identity & column _z._z %~ negate
     in k !*! m !*! k
 
--- and the rest?
--- instance Num a => Handed (Vertex a) where
---   changeHand v = v & _pos._3 %~ negate & _n._3 %~ negate
-
 instance Num a => Handed (Vertex a) where
   changeHand v@Vertex3{} = v & _pos._3 %~ negate
   changeHand v@Vertex9{} = v & _pos._3 %~ negate & _n._3 %~ negate & _tn._3 %~ negate
@@ -431,16 +427,6 @@ lookAlongT :: Trans a => V3 a -> V3 a -> Transform a
 lookAlongT v n = matrixT $ mkTransformation quat zero
   where
     (n', v') = (normalize n, normalize v)
-    -- a = cross v' n'
-    -- d = dot v' n'
-    -- -- ang = (\dd a -> let an = asin (min 1 $ norm a)
-    -- --                 in if dd >= 0 then an
-    -- --                    else pi*0.5 + (pi*0.5 - an))
-    -- --       d axis
-    -- axis = if nearZero (norm a) && (d < 0) then anyPerp n' else a
-    -- ang = unangle3 axis d
-    -- ang' = if nearZero (norm a) && (d < 0) then pi else ang
-    -- quat = axisAngle axis ang'
     quat = rotFromTo v n
 
 unangle3 :: (Epsilon a, Floating a, Ord a) => V3 a -> a -> a
@@ -449,15 +435,6 @@ unangle3 cross' dot' =
   in if dot' >= 0
        then an
        else pi - an
-
-                      -- in if nearZero (norm a) && (d < 0) then (anyPerp n0, pi) else (a, ang)
-
-  -- axisAngle from to  !!!!!!!!!!!!!!!!!!!!!!
--- axisAngle' :: (Epsilon a, Floating a) => V3 a -> a -> Quaternion a
--- axisAngle' axis theta
---   | nearZero theta = Quaternion 1 zero
---   | nearZero axis = axisAngle (anyPerp axis) pi
---   | otherwise = axisAngle axis theta
 
 rotFromTo :: (Epsilon a, Floating a, Ord a) => V3 a -> V3 a -> Quaternion a
 rotFromTo v1 v2 =
@@ -475,18 +452,6 @@ discretePath ls' = matrixT <$> zipWith mkTransformation quats2 ls
   where ls = reverse $ foldl (\b a -> if nearZero (head b ^-^ a) then b else a:b)
              [head ls'] ls'
         tns = normalize <$> zipWith (^-^) (tail ls) (init ls)
-        -- axes = zipWith cross (V3 0 0 1 : tns) tns
-        -- dots = zipWith dot (V3 0 0 1 : tns) tns
-        -- angles = zipWith
-                 -- (\d a -> let an = asin (min 1 $ norm a)
-                 --          in if d >= 0 then an
-                 --             else pi*0.5 + (pi*0.5 - an))
-                 -- dots axes
-        -- angles = zipWith unangle3 axes dots
-        -- quats = zipWith
-        --         (\ax an -> if nearZero ax || nearZero an then Quaternion 1 zero
-        --                    else axisAngle ax an)
-        --   axes angles ++ [Quaternion 1 zero]
         quats = zipWith rotFromTo (V3 0 0 1 : tns) tns ++ [Quaternion 1 zero]
         quats2 = drop 1 $ scanl (\x y -> normalize $ y * x) (Quaternion 1 zero) quats
 

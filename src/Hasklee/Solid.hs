@@ -118,7 +118,6 @@ instance Trans a => Default (Mesh a) where
     def = toMesh $ Cube 1
 
 
--- what about when s does not divide 1. last part will be off.
 solidV :: Trans a => SolidMeshOptions -> Solid a -> [[Vertex a]]
 solidV mo (Sphere r) =
   let sh = 1 / fromIntegral (hSegments mo)

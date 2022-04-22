@@ -100,15 +100,6 @@ instance Trans a => Subdiv (Solid a) a where
         aas' = zipF (repeat f) aas
     in toListOf (folded.folded) aas'
 
-  -- this is nonsense
-  -- subdiv (V3 xs ys zs) (Extrude sh1 sh2) =
-  --   let
-  --     slicef s1 s2 = zipWith Extrude (subdiv (V3 xs zs []) s1) (subdiv (V3 xs zs []) s2)
-  --     trs = tlerp <$> ys <*> [sh2 ^. _localSpace] <*> [sh1 ^. _localSpace]
-  --   in case sh1 of
-  --     (Point _) -> concat $ zipF (repeat slicef) (sh1 : tail (_localSpace (const trs) sh2))
-  --     _ -> concat $ zipF (repeat slicef) (init (_localSpace (const trs) sh1) ++ [sh2])
-
   subdiv vs (TransformedSolid s t) = transform t <$> subdiv vs s
   subdiv _ o =  error $ "subdiv for '"  ++ show o ++ "' not yet implemented"
 

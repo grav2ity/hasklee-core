@@ -8,7 +8,6 @@ module Hasklee.Colour
 import Control.DeepSeq
 import Control.Lens hiding (transform)
 import Data.Binary
--- import Data.Colour as Colour
 import Data.Colour
 import Data.Colour.Names
 import Data.Colour.RGBSpace (uncurryRGB)
@@ -17,7 +16,6 @@ import Data.Hashable
 import Linear
 
 import Hasklee.Transform
--- import qualified Hasklee as Data
 
 
 class ToColour t a | t -> a where
