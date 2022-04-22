@@ -95,35 +95,35 @@ unparams (ComponentAtr l) = ComponentAtr $ filter (\case { ParamC _ -> False; _ 
 unparams a = a
 
 
-prefab0 :: (Hashable a, Trans a)
+prefab0 :: Trans a
         => Object a
         -> NScene a (Object a)
 prefab0 o =
         newPrefab o >>= \p -> return $
         leaf $ InstanceObj $ Instance p o
 
-prefab1 :: (Hashable a, Trans a)
+prefab1 :: Trans a
         => (b -> Object a) -> b
         -> NScene a (b -> Object a)
 prefab1 f b =
         newPrefab (f b) >>= \p -> return $
         \b' -> leaf $ InstanceObj $ Instance p (f b')
 
-prefab2 :: (Hashable a, Trans a)
+prefab2 :: Trans a
         => (b -> c -> Object a) -> b -> c
         -> NScene a (b -> c -> Object a)
 prefab2 f b c =
         newPrefab (f b c) >>= \p -> return $
         \b' c' -> leaf $ InstanceObj (Instance p (f b' c'))
 
-prefab3 :: (Hashable a, Trans a)
+prefab3 :: Trans a
         => (b -> c -> d -> Object a) -> b -> c -> d
         -> NScene a (b -> c -> d -> Object a)
 prefab3 f b c d =
         newPrefab (f b c d) >>= \p -> return $
         \b' c' d' -> leaf $ InstanceObj (Instance p (f b' c' d'))
 
-prefab4 :: (Hashable a, Trans a)
+prefab4 :: Trans a
         => (b -> c -> d -> e -> Object a) -> b -> c -> d -> e
         -> NScene a (b -> c -> d -> e -> Object a)
 prefab4 f b c d e =
@@ -131,7 +131,7 @@ prefab4 f b c d e =
         \b' c' d' e' -> leaf $ InstanceObj (Instance p (f b' c' d' e'))
 
 
-prefabF0 :: (Hashable a, Trans a)
+prefabF0 :: Trans a
          => NScene a (Object a)
          -> NScene a (NScene a (Object a))
 prefabF0 f =
@@ -139,7 +139,7 @@ prefabF0 f =
          newPrefab >>= \p -> return $
          leaf . InstanceObj . Instance p <$> f
 
-prefabF1 :: (Hashable a, Trans a)
+prefabF1 :: Trans a
          => (b -> NScene a (Object a)) -> b
          -> NScene a (b -> NScene a (Object a))
 prefabF1 f b =
@@ -147,7 +147,7 @@ prefabF1 f b =
          newPrefab >>= \p -> return $
          \b' -> leaf . InstanceObj . Instance p <$> f b'
 
-prefabF2 :: (Hashable a, Trans a)
+prefabF2 :: Trans a
          => (b -> c -> NScene a (Object a)) -> b -> c
          -> NScene a (b -> c -> NScene a (Object a))
 prefabF2 f b c =
@@ -155,7 +155,7 @@ prefabF2 f b c =
          newPrefab >>= \p -> return $
          \b' c' -> leaf . InstanceObj . Instance p <$> f b' c'
 
-prefabF3 :: (Hashable a, Trans a)
+prefabF3 :: Trans a
          => (b -> c -> d -> NScene a (Object a)) -> b -> c -> d
          -> NScene a (b -> c -> d -> NScene a (Object a))
 prefabF3 f b c d =
@@ -163,7 +163,7 @@ prefabF3 f b c d =
          newPrefab >>= \p -> return $
          \b' c' d' -> leaf . InstanceObj . Instance p <$> f b' c' d'
 
-prefabF4 :: (Hashable a, Trans a)
+prefabF4 :: Trans a
          => (b -> c -> d -> e -> NScene a (Object a)) -> b -> c -> d -> e
          -> NScene a (b -> c -> d -> e -> NScene a (Object a))
 prefabF4 f b c d e =
