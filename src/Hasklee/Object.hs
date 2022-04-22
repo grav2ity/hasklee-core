@@ -9,7 +9,7 @@ module Hasklee.Object
   , dummy
   , nix, nixs
   , ncolumn, nrow, nslice
-  , liftMeshLT, liftMesh
+  , liftMeshF, liftMesh
   , liftFacesF, liftFaces
   , attachOnSurface, attachOntoSurface
   , recenter, reorient, reorient0

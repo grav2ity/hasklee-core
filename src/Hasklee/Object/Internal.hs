@@ -342,10 +342,10 @@ inheritedAttributes s =
   in att
 
 
-liftMeshLT :: (Trans a, Applicative f)
+liftMeshF :: (Trans a, Applicative f)
              => Traversal' (Object a) (Mesh a)
              -> (Object a -> f (Object a)) -> Object a -> f (Object a)
-liftMeshLT l f o =
+liftMeshF l f o =
   let (dMesh, eNode) = l <<.~ EmptyMesh $ o
       att = inheritedAttributes o
       newNode = reorient0 . recenter $ MeshObj dMesh att
@@ -353,7 +353,7 @@ liftMeshLT l f o =
 
 liftMesh :: (Trans a, Integral i)
            => i -> (Object a -> Object a) -> Object a -> Object a
-liftMesh i f = runIdentity . liftMeshLT
+liftMesh i f = runIdentity . liftMeshF
                  (rootN._mesh. imx (fromIntegral i)) (Identity . f)
 
 
