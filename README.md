@@ -37,12 +37,35 @@ That said, I’m currently attempting to make a ‘game’ with it.
 - Please refer to the [examples](https://github.com/grav2itty/hasklee-examples)
 - Scenes in Hasklee are constructed inside `NScene` monad as
 
-        NScene r ()
+    ```haskell
+    NScene r ()
+    ```
 
     or
 
-        NScene r (Object r)
+    ```haskell
+    NScene r (Object r)
+    ```
 
      with r being `Float` or `Double`
 
 - use `binIO` to convert `NScene` into [`Builder`](https://hackage.haskell.org/package/bytestring-0.10.12.0/docs/Data-ByteString-Builder.html) or directly write to file with `writeScene`
+
+## Draft Docs
+
+* Intro
+* [Objects](docs/Objects.md)
+* [Interactive behaviour](docs/Interactive.md)
+* [Prefabs and instances](docs/Prefabs.md)
+* [Mesh](docs/Mesh.md)
+* Transforms
+* Scenes
+* Attributes
+* Components
+* Lua scripting
+* Sound
+* Subdivision
+* Shapes and Solids
+* Pipes
+* Randomizing
+* Animation
