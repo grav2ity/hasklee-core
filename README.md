@@ -4,7 +4,6 @@ Hasklee is a library for creating interactive 3D objects / scenes.
 
 Its creations are brought to life trough external 3D engines. Currently only [Unity](https://unity.com/) is supported via [HaskleeUnity](https://github.com/grav2itty/HaskleeUnity) package.
 
-
 Hasklee features:
 
 - some pretty naive mesh construction facilities
@@ -14,12 +13,27 @@ Hasklee features:
 - Lua scripting
 - nested prefabs
 
-Hasklee is a proof of concept toy. It cannot be easily integrated with existing
-projects / different workflows and it's rather unusable without some additional 'live programming' infrastructure.
-(but see the [demos](https://www.youtube.com/watch?v=mSCImsBpFeo&list=PL5xs7Mc75HThPj_onhH3ozA--xa50NwO6) for an interactive Emacs session)
+
+Some [demos](https://www.youtube.com/watch?v=mSCImsBpFeo&list=PL5xs7Mc75HThPj_onhH3ozA--xa50NwO6).
+
+Hasklee is a proof of concept toy and it cannot be easily integrated with existing
+projects / different workflows.
 
 That said, I’m currently attempting to make a ‘game’ with it.
 
+## hasklee-quick
+
+So I've borrowed a couple of lines from [Reanimate](https://github.com/reanimate/reanimate) and it's now possible to have a quick 'live programming' session. 
+
+```console
+$ git clone https://github.com/grav2itty/hasklee-quick.git
+$ cd hasklee-quick
+$ stack repl
+:cmd haskleeLive
+```
+
+Edit and save Main.hs to have the result auto refreshed.
+[HaskleeUnity](https://github.com/grav2itty/HaskleeUnity) must be running in play mode at the receiving end.
 
 ## Builidng
 
@@ -29,7 +43,6 @@ That said, I’m currently attempting to make a ‘game’ with it.
     - (optional) [https://github.com/grav2itty/hasklee-examples.git](https://github.com/grav2itty/hasklee-examples.git)
 - Get **stack.yaml** from [https://github.com/grav2itty/hasklee-stack.git](https://github.com/grav2itty/hasklee-stack.git)  
   Uncomment **hasklee-examples** if present
-
 
 ## Usage
 
