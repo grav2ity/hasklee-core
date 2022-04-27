@@ -24,8 +24,7 @@ That said, I’m currently attempting to make a ‘game’ with it.
 ## Builidng
 
 - Please use [Stack](https://www.haskellstack.org)
-- Start new stack project
-- Git clone into project's folder
+- Git clone into a new directory
     - [https://github.com/grav2itty/hasklee.git](https://github.com/grav2itty/hasklee.git)
     - (optional) [https://github.com/grav2itty/hasklee-examples.git](https://github.com/grav2itty/hasklee-examples.git)
 - Get **stack.yaml** from [https://github.com/grav2itty/hasklee-stack.git](https://github.com/grav2itty/hasklee-stack.git)  
