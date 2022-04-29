@@ -6,7 +6,7 @@ module Hasklee.Attribute
   , isNamed
   , attribute, attribute'
   , component, component'
-  , customComponent
+  , customComponent, customComponent'
   , actionR, actionR'
   , actionS, actionS'
   , rID
@@ -20,7 +20,7 @@ module Hasklee.Attribute
   , unlitColor, unlitColor'
   , colour, colour', acolour, acolour'
   , specular, specular'
-  , pointLight, spotLight, dirLight
+  , pointLight, pointLight', spotLight, spotLight', dirLight, dirLight'
   , meshLight
   , csound, csoundA, csoundA'
   , playNote
@@ -30,7 +30,7 @@ module Hasklee.Attribute
   , danceInstance
   , record, record'
   , luaController
-  , luaStart, luaAwake
+  , luaStart, luaStart', luaAwake, luaAwake'
   , luaComponent, luaComponent'
   , parameter
   ) where
@@ -98,7 +98,13 @@ customComponent :: (Generic s, GetName (Rep s), ToJSON s, HasAttributes t a)
                 => s -> t -> t
 customComponent s =
   let name = T.pack . getName . GHC.Generics.from $ s
-  in addComponent (CustomComponent name (Data.Aeson.encode s))
+  in component (CustomComponent name (Data.Aeson.encode s))
+
+customComponent' :: (Generic s, GetName (Rep s), ToJSON s, HasAttributes t a)
+                => s -> t -> t
+customComponent' s =
+  let name = T.pack . getName . GHC.Generics.from $ s
+  in component' (CustomComponent name (Data.Aeson.encode s))
 
 
 actionR, actionR' :: HasAttributes t a => RealID -> String -> t -> t
@@ -117,7 +123,7 @@ rIDT, rIDT' :: HasAttributes t a => [RealID] -> t -> t
 rIDT i = attribute (RealIDTAtr i)
 rIDT' i = attribute' (RealIDTAtr i)
 
-rIDGraph, rIDGraph' :: HasAttributes t a => AG.Graph Int -> t -> t
+rIDGraph, rIDGraph' :: HasAttributes t a => AG.Graph RealID -> t -> t
 rIDGraph gr = component (IdGraphRC gr)
 rIDGraph' gr = component' (IdGraphRC gr)
 
@@ -126,25 +132,25 @@ cJointN :: RealID -> Component a
 cJointN a = ConfigurableJointN a Nothing Nothing Nothing Nothing Nothing Nothing Nothing Nothing
 
 
-tag, tag' :: HasAttributes t b => String -> t -> t
+tag, tag' :: HasAttributes t a => String -> t -> t
 tag s = attribute (TagAtr . T.pack $ s)
 tag' s = attribute' (TagAtr . T.pack $ s)
 
-name, name' :: HasAttributes t b => String -> t -> t
+name, name' :: HasAttributes t a => String -> t -> t
 name s = attribute (NameAtr . T.pack $ s)
 name' s = attribute (NameAtr . T.pack $ s)
 
-material, material' :: HasAttributes t b => String -> t -> t
+material, material' :: HasAttributes t a => String -> t -> t
 material s = attribute (MaterialAtr $ MaterialName . T.pack $ s)
 material' s = attribute' (MaterialAtr $ MaterialName . T.pack $ s)
 
 shader, shader'
-  :: HasAttributes t b
-  => String -> Maybe Texture -> MaterialOptions b -> t -> t
+  :: HasAttributes t a
+  => String -> Maybe Texture -> MaterialOptions a -> t -> t
 shader s t opt = attribute (MaterialAtr $ Material (T.pack s) t opt)
 shader' s t opt = attribute' (MaterialAtr $ Material (T.pack s) t opt)
 
-unlitColor, unlitColor' :: Fractional b => HasAttributes t b => t -> t
+unlitColor, unlitColor' :: Fractional a => HasAttributes t a => t -> t
 unlitColor = shader "Unlit/Color" Nothing def
 unlitColor' = shader' "Unlit/Color" Nothing def
 
@@ -162,23 +168,27 @@ specular c = attribute (SpecularAtr (_colour c))
 specular' c = attribute (Param (SpecularAtr (_colour c)))
 
 
-pointLight :: (HasAttributes t a, Num a) => LightOptions a -> t -> t
+pointLight, pointLight' :: HasAttributes t a => LightOptions a -> t -> t
 pointLight lo = attribute (LightAtr PointLight lo)
+pointLight' lo = attribute (LightAtr PointLight lo)
 
-spotLight :: (HasAttributes t a, Num a) => LightOptions a -> t -> t
+spotLight, spotLight' :: HasAttributes t a => LightOptions a -> t -> t
 spotLight lo = attribute (LightAtr SpotLight lo)
+spotLight' lo = attribute (LightAtr SpotLight lo)
 
-dirLight :: (HasAttributes t a, Num a) => LightOptions a -> t -> t
+dirLight, dirLight' :: HasAttributes t a => LightOptions a -> t -> t
 dirLight lo = attribute (LightAtr DirectionalLight lo)
+dirLight' lo = attribute (LightAtr DirectionalLight lo)
 
-meshLight :: (HasAttributes t a, Num a) => LightOptions a -> t -> t
+meshLight, meshLight' :: HasAttributes t a => LightOptions a -> t -> t
 meshLight lo = attribute (LightAtr MeshLight lo)
+meshLight' lo = attribute (LightAtr MeshLight lo)
 
 
 csound :: (RenderCsd a, MonadIO m) => a -> m T.Text
 csound = liftIO . fmap T.pack . renderCsdBy (setRates 48000 32 Csound.Base.<> setSilent)
 
-csoundA, csoundA' :: HasAttributes t b => T.Text -> t -> t
+csoundA, csoundA' :: HasAttributes t a => T.Text -> t -> t
 csoundA s = attribute (CsoundInline s)
 csoundA' s = attribute' (CsoundInline s)
 
@@ -186,8 +196,9 @@ playNote :: String -> Int -> Int -> String
 playNote name pitch volume = "self.csound:event('i " ++ show name ++ " 0 1 1 " ++ show pitch ++ " " ++ show volume ++ "')"
 
 
-vectorAtr :: (Trans b, Show b) => HasAttributes t b => String -> V3 b -> t -> t
+vectorAtr, vectorAtr' :: HasAttributes t a => String -> V3 a -> t -> t
 vectorAtr s t = attribute (VectorAtr (T.pack s) t)
+vectorAtr' s t = attribute' (VectorAtr (T.pack s) t)
 
 
 path, path'
@@ -229,16 +240,18 @@ toDance s t =
 luaController :: HasAttributes t a => t -> t
 luaController = attribute LuaController
 
-luaStart :: HasAttributes t a => String -> t -> t
+luaStart, luaStart' :: HasAttributes t a => String -> t -> t
 luaStart s = attribute (LuaCode "start" (T.pack s))
+luaStart' s = attribute' (LuaCode "start" (T.pack s))
 
-luaAwake :: HasAttributes t a => String -> t -> t
+luaAwake, luaAwake' :: HasAttributes t a => String -> t -> t
 luaAwake s = attribute (LuaCode "awake" (T.pack s))
+luaAwake' s = attribute' (LuaCode "awake" (T.pack s))
 
 luaComponent :: HasAttributes t a => String -> String -> t -> t
 luaComponent s1 s2 = component (LuaComponent (T.pack s1) (T.pack s2))
 
-luaComponent' :: Show b => HasAttributes t b => String -> String -> t -> t
+luaComponent' :: HasAttributes t a => String -> String -> t -> t
 luaComponent' s1 s2 = component' (LuaComponent (T.pack s1) (T.pack s2))
 
 
