@@ -27,8 +27,14 @@ import Hasklee.Transform (Trans, Transformable(transform),
 
 class HasAttributes t a | t -> a where
   _attributes :: Traversal' t (Attribute a)
+
+  attributes :: Traversal' t (Attribute a)
+  attributes = _attributes
+
+  --to remove
   _allAttributes :: Traversal' t (Attribute a)
-  _allAttributes = _attributes
+  _allAttributes = attributes
+
 
 
 type RealID = Int
@@ -159,7 +165,7 @@ instance Monoid (Attribute b) where
 
 instance HasAttributes (Attribute a) a where
   _attributes = id
-  _allAttributes = _attributes.each
+  attributes = _attributes.each
 
 instance Each (Attribute a) (Attribute b) (Attribute a) (Attribute b) where
   each f (ListAtr as) = ListAtr <$> traverse f as

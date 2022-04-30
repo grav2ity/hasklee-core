@@ -3,6 +3,7 @@ module Hasklee.Object
   , ObjectN(..)
   , rootN
   , children, _leaves
+  , allAttributes
   , leaf, leaves
   , attach
   , meshObj, solidObj, dummyObj

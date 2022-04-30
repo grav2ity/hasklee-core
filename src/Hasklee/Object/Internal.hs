@@ -35,7 +35,7 @@ data Instance a = Instance (Prefab a) (Object a)
 
 instance HasAttributes (Instance a) a where
   _attributes g (Instance o a) = Instance o <$> _attributes g a
-  _allAttributes g (Instance o a) = Instance o <$> _allAttributes g a
+  attributes g (Instance o a) = Instance o <$> attributes g a
 
 instance HasLocalSpace (Instance a) a where
   _localSpace g (Instance o a) = Instance o <$> _localSpace g a
@@ -71,7 +71,7 @@ newtype PrefabMemo a = PrefabMemo { prefabOABB :: OABB a }
 
 instance HasAttributes (Prefab a) a where
   _attributes g (Prefab s i a m) = (\x -> Prefab s i x m) <$> _attributes g a
-  _allAttributes g (Prefab s i a m) = (\x -> Prefab s i x m) <$> _allAttributes g a
+  attributes g (Prefab s i a m) = (\x -> Prefab s i x m) <$> attributes g a
 
 instance HasLocalSpace (Prefab a) a where
   _localSpace g (Prefab s i a m) = (\x -> Prefab s i x m) <$> _localSpace g a
@@ -113,8 +113,8 @@ instance Each (Object a) (Object a) (ObjectN a) (ObjectN a) where
   each = _Wrapped'.traversed
 
 instance HasAttributes (Object a) a where
-  _attributes = _Wrapped'.root._attributes
-  _allAttributes = each._allAttributes
+  _attributes = rootN._attributes
+  attributes = rootN.attributes
 
 instance HasLocalSpace (Object a) a where
   _localSpace = _Wrapped'.root._localSpace
@@ -160,7 +160,7 @@ instance Trans a => Ixed (Object a) where
   ix i = _Wrapped'.branches.elementOf traversed i._Unwrapped'
 
 instance Trans a => Tagged (Object a) (Object a) (Object a) (Object a) where
-  tagged s g o = children (\o' -> if elemOf (_attributes.each._TagAtr.to T.unpack)
+  tagged s g o = children (\o' -> if elemOf (attributes._TagAtr.to T.unpack)
                             s o' then g o' else pure o') o
 
 
@@ -169,6 +169,10 @@ rootN = _Wrapped'.root
 
 children :: Traversal' (Object a) (Object a)
 children = _Wrapped'.branches.traversed._Unwrapped'
+
+allAttributes :: Traversal' (Object a) (Attribute a)
+allAttributes = each.attributes
+
 
 leaf :: ObjectN a -> Object a
 leaf a = Object (Node a [])
@@ -222,7 +226,7 @@ instance HasAttributes (ObjectN a) a where
   _attributes g (DummyObj a) = DummyObj <$> _attributes g a
   _attributes g (CullObj a) = CullObj <$> _attributes g a
 
-  _allAttributes = _attributes._allAttributes
+  attributes = _attributes.attributes
 
 instance HasLocalSpace (ObjectN a) a where
   _localSpace g (SolidObj s a) = SolidObj s <$> _localSpace g a
@@ -332,7 +336,7 @@ objsubdivTr v o' = case o' of
 inheritedAttributes :: (Trans a, HasAttributes s a) => s -> Attribute a
 inheritedAttributes s =
   let
-    att = s ^. _attributes.each.filtered ff
+    att = s ^. attributes.filtered ff
     ff ColourAtr{} = True
     ff AlphaColourAtr{} = True
     ff SpecularAtr{} = True

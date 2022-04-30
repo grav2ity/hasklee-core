@@ -65,7 +65,7 @@ import Hasklee.Transform
 
 
 getID :: HasAttributes t a => t -> Maybe RealID
-getID =  preview (_allAttributes._RealIDAtr)
+getID =  preview (attributes._RealIDAtr)
 
 getIndex :: Attribute a -> Maybe ((Int, Int, Int), (Int, Int, Int))
 getIndex = preview (each._IndexAtr)
