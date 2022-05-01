@@ -14,7 +14,7 @@ import Linear
 import Hasklee.Attribute
 import Hasklee.Colour as CN
 import Hasklee.Mesh
-import Hasklee.MeshMod
+import Hasklee.Mesh.Mod
 import Hasklee.Object
 import Hasklee.Scene
 import Hasklee.Spatial

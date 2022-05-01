@@ -1,7 +1,7 @@
 module Hasklee
   ( module Hasklee.Attribute
   , module Hasklee.Mesh
-  , module Hasklee.MeshMod
+  , module Hasklee.Mesh.Mod
   , module Hasklee.Object
   , module Hasklee.Scene
   , module Hasklee.Shape
@@ -14,7 +14,7 @@ module Hasklee
 
 import Hasklee.Attribute
 import Hasklee.Mesh hiding (rotateL, rotateR)
-import Hasklee.MeshMod
+import Hasklee.Mesh.Mod
 import Hasklee.Object
 import Hasklee.Scene
 import Hasklee.Shape

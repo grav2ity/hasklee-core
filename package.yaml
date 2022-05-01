@@ -82,7 +82,8 @@ library:
     - Hasklee.Generate
     - Hasklee.HGeometry
     - Hasklee.Mesh
-    - Hasklee.MeshMod
+    - Hasklee.Mesh.Graph
+    - Hasklee.Mesh.Mod
     - Hasklee.Object
     - Hasklee.Object.Mod
     - Hasklee.Pipe

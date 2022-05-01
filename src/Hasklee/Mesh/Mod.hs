@@ -1,4 +1,4 @@
-module Hasklee.MeshMod
+module Hasklee.Mesh.Mod
   ( rectangleMesh, rectangleMe
   , squareMesh, squareMe
   , triangleMesh, triangleMe
@@ -6,7 +6,14 @@ module Hasklee.MeshMod
   , slit
   ) where
 
+import qualified Algebra.Graph as AG
+import qualified Algebra.Graph.Labelled as AGL
+import Control.Monad.State
 import Data.Default.Class
+import Data.Function
+import Data.List
+import Data.Maybe
+import qualified Data.Sequence as Seq
 import Control.Lens hiding (transform)
 import Linear
 
@@ -39,3 +46,5 @@ buttonize m = weaveMeshSeq [m, m'] <> m' ^. faces
 slit :: (Trans a, ToVertices t a, Default (VertexOptions t))
      => V2 a -> t -> Mesh a
 slit s t = weaveMeshSeq . fmap closed $ [toVertices t, surfaceScale s (toVertices t)]
+
+
