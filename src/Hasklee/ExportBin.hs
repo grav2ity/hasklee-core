@@ -221,7 +221,7 @@ encComponentType = int16LE . fromIntegral . componentType
 
 encComponentPayLoad :: (Encode a, Trans a) => Component a -> Builder
 encComponentPayLoad (ParamC c) = encComponentPayLoad c
-encComponentPayLoad (GraphPropagate i j) = int32LE (fromIntegral i) <> int16LE (fromIntegral j)
+encComponentPayLoad (GraphPropagate i j k) = int32LE (fromIntegral i) <> int16LE (fromIntegral j) <> encode k
 encComponentPayLoad x = gencode x
 
 encComponent :: (Encode a, Trans a) => Component a -> Builder
@@ -433,3 +433,6 @@ writeScene fileName a = do
     hSeek h AbsoluteSeek 0
     hPutBuilder h b
     hFlush h
+
+ntest :: Trans a => NScene a (Object a) -> IO (Object a)
+ntest n = evalStateT (n >>= preNS) eNStack

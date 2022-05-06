@@ -18,7 +18,7 @@ instance Datatype t => GetName (D1 t f) where
   getName  = datatypeName
 
 
-data Component a = GraphPropagate Int Int
+data Component a = GraphPropagate Int Int a
                  | IdGraphRC (AG.Graph Int)
                  | GraphConductor Int
                  | Drag a

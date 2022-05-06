@@ -24,6 +24,7 @@ module Hasklee.Attribute
   , meshLight
   , csound, csoundA, csoundA'
   , playNote
+  , graphPropagate
   , vectorAtr
   , path, path'
   , dance, dance'
@@ -194,6 +195,9 @@ csoundA' s = attribute' (CsoundInline s)
 
 playNote :: String -> Int -> Int -> String
 playNote name pitch volume = "self.csound:event('i " ++ show name ++ " 0 1 1 " ++ show pitch ++ " " ++ show volume ++ "')"
+
+graphPropagate :: Int -> String
+graphPropagate start = "self.go.graphPropagate.PropagateFrom(args[1], " ++ show start ++ ")"
 
 
 vectorAtr, vectorAtr' :: HasAttributes t a => String -> V3 a -> t -> t
