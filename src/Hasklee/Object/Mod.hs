@@ -84,32 +84,32 @@ rgbLights x = do
   actionID <- id <<+= 3
   return $ x
     & colour CN.black & rID selfID
-    & actionR actionID "local k = ... ; self.gameObject.SetLightColorR(k)"
-    & actionR (actionID + 1) "local k = ... ; self.gameObject.SetLightColorG(k)"
-    & actionR (actionID + 2) "local k = ... ; self.gameObject.SetLightColorB(k)"
+    & actionR actionID "self.gameObject.SetLightColorR(args[1])"
+    & actionR (actionID + 1) "self.gameObject.SetLightColorG(args[1])"
+    & actionR (actionID + 2) "self.gameObject.SetLightColorB(args[1])"
 
 rgbObject :: Trans a => a -> Object a -> StateT Int (NScene a) (Object a)
 rgbObject s x = do
   selfID <- lift newID
   actionID <- id <<+= 3
-  let k = "(k * " ++ show s ++ ")"
+  let k = "(args[1] * " ++ show s ++ ")"
   return $ x
     & rID selfID
     & colour CN.black
-    & actionR actionID ("local k = ... ; self.gameObject.SetColorR" ++ k)
-    & actionR (actionID + 1) ("local k = ... ; self.gameObject.SetColorG" ++ k)
-    & actionR (actionID + 2) ("local k = ... ; self.gameObject.SetColorB" ++ k)
+    & actionR actionID ("self.gameObject.SetColorR" ++ k)
+    & actionR (actionID + 1) ("self.gameObject.SetColorG" ++ k)
+    & actionR (actionID + 2) ("self.gameObject.SetColorB" ++ k)
 
 rgbSliders :: Trans a => a -> Object a -> NScene a (Object a)
 rgbSliders s x = do
   selfID <- newID
   return (Hasklee.Object.Mod.slider (_mesh.ix 0) (f selfID) x)
     where
-      k = "(k * " ++ show s ++ ")"
+      k = "(args[1] * " ++ show s ++ ")"
       f i x = x & rID i & colour CN.black &
         let mm = mod (i - 1) 3 in
           case mm of
-            0 -> actionR i ("local k = ... ; self.gameObject.SetColorR" ++ k)
-            1 -> actionR i ("local k = ... ; self.gameObject.SetColorG" ++ k)
-            2 -> actionR i ("local k = ... ; self.gameObject.SetColorB" ++ k)
+            0 -> actionR i ("self.gameObject.SetColorR" ++ k)
+            1 -> actionR i ("self.gameObject.SetColorG" ++ k)
+            2 -> actionR i ("self.gameObject.SetColorB" ++ k)
             _ -> undefined
