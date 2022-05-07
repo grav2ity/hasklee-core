@@ -67,14 +67,15 @@ Edit and save Main.hs to have the result auto refreshed.
 
 * Intro
 * [Objects](docs/Objects.md)
+* [Object Modifiers](docs/ObjectMods.md)
 * [Interactive behaviour](docs/Interactive.md)
 * [Prefabs and instances](docs/Prefabs.md)
 * [Mesh](docs/Mesh.md)
+* [Lua scripting](docs/Lua.md)
 * Transforms
 * Scenes
 * Attributes
 * Components
-* Lua scripting
 * Sound
 * Subdivision
 * Shapes and Solids
