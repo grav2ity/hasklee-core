@@ -4,6 +4,7 @@ module Hasklee.Mesh.Mod
   , triangleMesh, triangleMe
   , buttonize
   , slit
+  , onEdge
   ) where
 
 import qualified Algebra.Graph as AG
@@ -48,3 +49,14 @@ slit :: (Trans a, ToVertices t a, Default (VertexOptions t))
 slit s t = weaveMeshSeq . fmap closed $ [toVertices t, surfaceScale s (toVertices t)]
 
 
+
+onEdge :: (Trans a, Transformable t a, Extent t a)
+       => Edge (Vertex a) -> V3 a -> a -> Spatial t a -> [t]
+onEdge (Edge a b) n x t =
+  let ap = view _pos a
+      bp = view _pos b
+      o = lerp x bp ap
+      tn = normalize (bp ^-^ ap)
+      btn = cross n tn
+      ls = matrixT $ mkTransformationMat (Linear.transpose $ V3 btn n tn) o
+  in transform ls <$> rend zero t
