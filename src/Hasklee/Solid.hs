@@ -143,6 +143,7 @@ solidV mo (Torus r1 r2) =
   where ver v = Vertex9 v n tn
           where n = signorm v
                 tn = signorm $ cross (V3 0 0 1) v
+solidV mo (TransformedSolid o t) = fmap (transform t) <$> solidV mo o
 solidV mo o = error $ "solidV for '"  ++ show o ++ "' not yet implemented"
 
 solidM :: (Trans a , Monad m) => SolidMeshOptions -> Solid a ->

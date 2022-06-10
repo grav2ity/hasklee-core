@@ -36,6 +36,9 @@ instance Fractional a => ToColour (V3 a) a where
 instance ToAlphaColour (AlphaColour a) a where
   _alphaColour = id
 
+instance Fractional a => ToAlphaColour (Colour a) a where
+  _alphaColour c = withOpacity c 1
+
 instance Fractional a => ToAlphaColour (V4 a) a where
   _alphaColour (V4 r g b a) = withOpacity (rgb r g b) a
 
