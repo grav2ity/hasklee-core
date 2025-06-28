@@ -1,9 +1,9 @@
-name:                hasklee
+name:                hasklee-core
 version:             0.1.0.0
-github:              "grav2itty/hasklee"
+github:              "grav2ity/hasklee-core"
 license:             BSD3
 author:              "Wojciech Szalajko"
-maintainer:          "grav2itty@gmail.com"
+maintainer:          "grav2ity@gmail.com"
 copyright:           "2022 Wojciech Szalajko"
 
 extra-source-files:
